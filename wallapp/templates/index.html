@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WallVision — Preview Your Wall</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◧</span>
+    <span class="brand-name">WallVision</span>
+  </div>
+  <div class="topbar-actions">
+    <button id="undoBtn" class="ghost-btn" disabled>Undo</button>
+    <button id="resetBtn" class="ghost-btn" disabled>Reset</button>
+  </div>
+</header>
+
+<main class="layout">
+
+  <!-- STAGE: upload / canvas -->
+  <section class="stage">
+    <div id="uploadZone" class="upload-zone">
+      <input type="file" id="fileInput" accept="image/*" hidden>
+      <div class="upload-zone-inner">
+        <div class="upload-icon">⬆</div>
+        <h2>Upload a photo of your room</h2>
+        <p>Tap the wall after uploading to select it, then try colors and textures.</p>
+        <button id="chooseFileBtn" class="primary-btn">Choose Photo</button>
+      </div>
+    </div>
+
+    <div id="canvasWrap" class="canvas-wrap hidden">
+      <canvas id="baseCanvas"></canvas>
+      <canvas id="overlayCanvas"></canvas>
+      <div id="tapHint" class="tap-hint">Tap on the wall to select it</div>
+      <div id="loadingSpinner" class="loading-spinner hidden"><div class="spinner"></div></div>
+    </div>
+
+    <div id="compareBar" class="compare-bar hidden">
+      <label class="switch">
+        <input type="checkbox" id="compareToggle">
+        <span class="slider"></span>
+      </label>
+      <span>Hold to compare before / after</span>
+    </div>
+  </section>
+
+  <!-- PANEL: swatches -->
+  <aside id="sidePanel" class="side-panel hidden">
+
+    <div class="panel-tabs">
+      <button class="tab-btn active" data-tab="colors">Colors</button>
+      <button class="tab-btn" data-tab="textures">Textures</button>
+      <button class="tab-btn" data-tab="adjust">Adjust</button>
+    </div>
+
+    <div class="tab-content" id="tab-colors">
+      <div class="tolerance-row">
+        <label for="toleranceSlider">Wall selection sensitivity</label>
+        <input type="range" id="toleranceSlider" min="8" max="60" value="28">
+      </div>
+
+      <div class="color-groups" id="colorGroups"></div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-textures">
+      <div class="texture-grid" id="textureGrid">
+        <div class="texture-loading">Loading textures…</div>
+      </div>
+    </div>
+
+    <div class="tab-content hidden" id="tab-adjust">
+      <div class="adjust-row">
+        <label for="opacitySlider">Effect strength</label>
+        <input type="range" id="opacitySlider" min="0" max="100" value="92">
+      </div>
+      <div class="adjust-row">
+        <label for="textureScaleSlider">Texture scale</label>
+        <input type="range" id="textureScaleSlider" min="50" max="300" value="100">
+      </div>
+      <p class="adjust-note">Selection looks off? Re-tap a different spot on the wall, or raise/lower sensitivity in the Colors tab.</p>
+    </div>
+
+  </aside>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
